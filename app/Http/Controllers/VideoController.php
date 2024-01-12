@@ -108,8 +108,34 @@ class VideoController extends Controller
     {
         $request->validated();
 
+
+        $filePath = $this->getFilePathFromUrl($userVideo->url);
+
+        if (!$filePath) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.delete_failed'));
+        }
+
+        $deleted = Storage::delete($filePath);
+
+        if (!$deleted) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.delete_failed'));
+        }
+
         $userVideo->delete();
 
         return response()->json(['data' => (object) []]);
+    }
+
+    private function getFilePathFromUrl(string $url)
+    {
+        $url = parse_url($url);
+
+        try {
+            $path = implode("/", array_slice(explode('/', $url['path']), 2));
+        } catch (mixed $e) {
+            return null;
+        }
+
+        return $path;
     }
 }
