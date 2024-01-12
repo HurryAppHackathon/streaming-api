@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVideoRequest;
+use App\Http\Requests\UpdateUserVideoRequest;
 use App\Models\UserVideo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -71,6 +72,29 @@ class VideoController extends Controller
         ]);
 
         return response(['data' => UserVideo::with(['owner'])->find($video->id)]);
+    }
+
+    /**
+     * Update a user video
+     * 
+     * Updates a user video
+     */
+    public function update(UpdateUserVideoRequest $request, UserVideo $userVideo) {
+        $validated = $request->validated();
+
+        if (isset($validated['name']) && !is_null($validated['name'])) {
+            $userVideo->name = $validated['name'];
+        }
+        if (isset($validated['description']) && !is_null($validated['description'])) {
+            $userVideo->description = $validated['description'];
+        }
+        if (isset($validated['is_public']) && !is_null($validated['is_public'])) {
+            $userVideo->is_public = $validated['is_public'];
+        }
+
+        $userVideo->save();
+
+        return response(['data' => UserVideo::find($userVideo->id)]);
     }
 
     /**
