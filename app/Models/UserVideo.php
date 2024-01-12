@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\PathToUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -11,6 +12,7 @@ class UserVideo extends Model
     protected $with = ['owner'];
     protected $casts = [
         'is_public' => 'boolean',
+        'url' => PathToUrl::class,
     ];
 
 

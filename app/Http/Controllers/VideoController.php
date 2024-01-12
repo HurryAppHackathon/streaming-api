@@ -62,13 +62,11 @@ class VideoController extends Controller
             return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
         }
 
-        $videoUrl = Storage::url($videoPath);
-
         $video = UserVideo::create([
             'user_id' => $user->id,
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'url' => $videoUrl,
+            'url' => $videoPath,
             'is_public' => $validated['is_public'],
         ]);
 
