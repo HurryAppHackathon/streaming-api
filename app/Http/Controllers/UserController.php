@@ -22,11 +22,9 @@ class UserController extends Controller
             return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('users.avatar_upload_failed'));
         }
 
-        $avatarUrl = Storage::url($avatarPath);
-
         $user = $request->user();
 
-        $user->avatar_url = $avatarUrl;
+        $user->avatar_url = $avatarPath;
 
         $user->save();
 
