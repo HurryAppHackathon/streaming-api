@@ -29,5 +29,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('videos')->group(function () {
         Route::get('', [VideoController::class, 'index'])->middleware('auth:sanctum');
         Route::post('', [VideoController::class, 'store'])->middleware('auth:sanctum');
+        Route::delete('{user_video}', [VideoController::class, 'destroy '])->middleware('auth:sanctum');
     });
 });

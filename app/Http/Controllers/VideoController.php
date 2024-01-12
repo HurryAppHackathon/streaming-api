@@ -72,4 +72,20 @@ class VideoController extends Controller
 
         return response(['data' => UserVideo::with(['owner'])->find($video->id)]);
     }
+
+    /**
+     * Delete a user video
+     * 
+     * Deletes a user video given an id
+     */
+    public function destroy(Request $request, UserVideo $userVideo)
+    {
+        if ($request->user()->id !== $userVideo->user_id) {
+            return abort(Response::HTTP_NOT_FOUND, __('videos.not_found'));
+        };
+
+        $userVideo->delete();
+
+        return response()->json(['data' => (object) []]);
+    }
 }
