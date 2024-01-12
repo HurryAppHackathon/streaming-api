@@ -27,6 +27,7 @@ Route::prefix('v1')->group(function () {
 
     /* ---------------------------------- AUTH ---------------------------------- */
     Route::prefix('videos')->group(function () {
+        Route::get('', [VideoController::class, 'index'])->middleware('auth:sanctum');
         Route::post('', [VideoController::class, 'store'])->middleware('auth:sanctum');
     });
 });

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class UserVideo extends Model
 {
     protected $guarded = [];
-
+    protected $with = ['owner'];
     protected $casts = [
         'is_public' => 'boolean',
     ];
