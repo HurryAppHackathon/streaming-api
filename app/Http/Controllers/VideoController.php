@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyUserVideoRequest;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateUserVideoRequest;
 use App\Models\UserVideo;
@@ -79,7 +80,8 @@ class VideoController extends Controller
      * 
      * Updates a user video
      */
-    public function update(UpdateUserVideoRequest $request, UserVideo $userVideo) {
+    public function update(UpdateUserVideoRequest $request, UserVideo $userVideo)
+    {
         $validated = $request->validated();
 
         if (isset($validated['name']) && !is_null($validated['name'])) {
@@ -102,11 +104,9 @@ class VideoController extends Controller
      * 
      * Deletes a user video given an id
      */
-    public function destroy(Request $request, UserVideo $userVideo)
+    public function destroy(DestroyUserVideoRequest $request, UserVideo $userVideo)
     {
-        if ($request->user()->id !== $userVideo->user_id) {
-            return abort(Response::HTTP_NOT_FOUND, __('videos.not_found'));
-        };
+        $request->validated();
 
         $userVideo->delete();
 
