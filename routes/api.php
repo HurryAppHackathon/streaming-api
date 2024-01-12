@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 
 /*
@@ -25,7 +26,12 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
     });
 
-    /* ---------------------------------- AUTH ---------------------------------- */
+    /* ---------------------------------- USER ---------------------------------- */
+    Route::prefix('user')->group(function () {
+        Route::post('avatar', [UserController::class, 'storeAvatar'])->middleware('auth:sanctum');
+    });
+
+    /* ---------------------------------- VIDEO ---------------------------------- */
     Route::prefix('videos')->group(function () {
         Route::get('', [VideoController::class, 'index'])->middleware('auth:sanctum');
         Route::post('', [VideoController::class, 'store'])->middleware('auth:sanctum');
