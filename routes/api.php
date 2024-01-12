@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PartyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 
@@ -37,5 +38,10 @@ Route::prefix('v1')->group(function () {
         Route::post('', [VideoController::class, 'store'])->middleware('auth:sanctum');
         Route::patch('{user_video}', [VideoController::class, 'update'])->middleware('auth:sanctum');
         Route::delete('{user_video}', [VideoController::class, 'destroy'])->middleware('auth:sanctum');
+    });
+
+    /* ---------------------------------- PARTY --------------------------------- */
+    Route::prefix('parties')->group(function () {
+        Route::get('{user_party}', [PartyController::class, 'show'])->middleware('auth:sanctum');
     });
 });
