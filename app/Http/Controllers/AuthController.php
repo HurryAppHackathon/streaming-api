@@ -63,7 +63,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken($validated['device_name'] ?? 'Unknown')->plainTextToken;
+        $token = $user->createToken($validated['device_name'] ?? 'Unknown', ['*'])->plainTextToken;
 
         return response()->json(['data' => ['token' => $token]]);
     }
