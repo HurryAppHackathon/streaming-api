@@ -22,6 +22,8 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
