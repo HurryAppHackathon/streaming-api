@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Casts\PathToUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class UserParty extends Model
 {
@@ -22,5 +24,23 @@ class UserParty extends Model
     public function owner(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (UserParty $userParty) {
+            $keys = ['name' => $userParty->name, 'video_url' => null, 'user_id' => $userParty->user_id, 'invite_code' => $userParty->invite_code];
+
+            Redis::hMSet('parties:' . $userParty->id, $keys);
+        });
+
+        static::updated(function (UserParty $userParty) {
+            if ($userParty->wasChanged('finished_at') && !is_null($userParty->finished_at)) {
+                Redis::delete('parties:' . $userParty->id);
+            }
+        });
     }
 }
