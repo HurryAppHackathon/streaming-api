@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('image_url');
+            $table->boolean('is_public');
             $table->foreignId('user_id')->constrained('users'); // Owner of party
             $table->string('invite_code');
             $table->timestamp('finished_at')->nullable(); // If null, party is ongoing

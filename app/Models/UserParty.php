@@ -12,6 +12,7 @@ class UserParty extends Model
     protected $with = ['owner'];
     protected $casts = [
         'image_url' => PathToUrl::class,
+        'is_public' => 'boolean',
     ];
     protected $hidden = ['invite_code'];
 

@@ -44,6 +44,7 @@ class PartyController extends Controller
             'name' => $validated['name'],
             'image_url' => $imagePath,
             'invite_code' => random_int(10000000, 99999999),
+            'is_public' => $validated['is_public'],
         ]);
 
         return new PartyResource(UserParty::find($userParty->id));
