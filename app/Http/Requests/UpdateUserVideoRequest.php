@@ -25,9 +25,9 @@ class UpdateUserVideoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string', 
-            'description' => 'nullable|string', 
-            'is_public' => 'nullable|boolean', 
+            'name' => 'nullable|string',
+            'description' => 'nullable|string',
+            'is_public' => 'nullable|boolean',
         ];
     }
 }

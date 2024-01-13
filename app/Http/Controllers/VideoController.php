@@ -68,6 +68,7 @@ class VideoController extends Controller
         $user = $request->user();
 
         $directoryPath = '/videos/' . $user->id;
+        $thumbnailsPath = '/thumbnails/' . $user->id;
 
         $videoPath = Storage::putFile($directoryPath, $request->file('file'));
 
@@ -75,7 +76,7 @@ class VideoController extends Controller
             return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
         }
 
-        $thumbnailPath = Storage::putFile($directoryPath, $request->file('file'));
+        $thumbnailPath = Storage::putFile($thumbnailsPath, $request->file('thumbnail'));
 
         if (!$thumbnailPath) {
             return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
@@ -110,6 +111,16 @@ class VideoController extends Controller
         }
         if (isset($validated['is_public']) && !is_null($validated['is_public'])) {
             $userVideo->is_public = $validated['is_public'];
+        }
+        if (isset($validated['thumbnail']) && !is_null($validated['thumbnail'])) {
+            $thumbnailsPath = '/thumbnails/' . $request->user()->id;
+            $thumbnailPath = Storage::putFile($thumbnailsPath, $request->file('thumbnail'));
+
+            if (!$thumbnailPath) {
+                return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
+            }
+
+            $userVideo->thumbnail_url = $thumbnailPath;
         }
 
         $userVideo->save();
