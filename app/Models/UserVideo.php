@@ -13,6 +13,7 @@ class UserVideo extends Model
     protected $casts = [
         'is_public' => 'boolean',
         'url' => PathToUrl::class,
+        'thumbnail_url' => PathToUrl::class,
     ];
 
 

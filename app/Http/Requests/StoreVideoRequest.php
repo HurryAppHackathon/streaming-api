@@ -24,6 +24,7 @@ class StoreVideoRequest extends FormRequest
         return [
             'name' => 'required|string',
             'description' => 'required|string',
+            'thumbnail' => 'required|file|mimetypes:image/png,image/jpeg,image/webp|extensions:jpg,jpeg,jpe,png,webp',
             'file' => 'required|file|mimetypes:video/mpeg,video/mp4,video/webm|extensions:mp4,webm',
             'is_public' => 'required|string|boolean',
         ];

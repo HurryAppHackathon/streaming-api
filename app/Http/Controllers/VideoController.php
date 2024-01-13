@@ -49,7 +49,8 @@ class VideoController extends Controller
      * 
      * Gets a specific video by id
      */
-    public function show(ShowVideoRequest $request, UserVideo $userVideo) {
+    public function show(ShowVideoRequest $request, UserVideo $userVideo)
+    {
         $request->validated();
 
         return response()->json(['data' => $userVideo]);
@@ -74,11 +75,18 @@ class VideoController extends Controller
             return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
         }
 
+        $thumbnailPath = Storage::putFile($directoryPath, $request->file('file'));
+
+        if (!$thumbnailPath) {
+            return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
+        }
+
         $video = UserVideo::create([
             'user_id' => $user->id,
             'name' => $validated['name'],
             'description' => $validated['description'],
             'url' => $videoPath,
+            'thumbnail_url' => $thumbnailPath,
             'is_public' => $validated['is_public'],
         ]);
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('url'); // Url of video
+            $table->string('thumbnail_url'); // Url of video's thumbnail 
             $table->boolean('is_public'); // Flag on whether video is public or not
 
             $table->timestamps();
