@@ -19,7 +19,7 @@ class PartyResource extends JsonResource
             'user_id' => $this->user_id,
             'name' => $this->name,
             'image_url' => $this->image_url,
-            'invite_code' => $this->when($request->user()->id, $this->user_id),
+            'invite_code' => $this->when($request->user()->id === $this->user_id, $this->invite_code),
             'owner' => $this->whenLoaded('owner'),
             'finished_at' => $this->finished_at,
             'created_at' => $this->created_at,

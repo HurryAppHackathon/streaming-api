@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EndPartyRequest;
 use App\Http\Requests\StorePartyRequest;
 use App\Http\Resources\PartyResource;
 use App\Models\UserParty;
@@ -18,7 +19,7 @@ class PartyController extends Controller
      */
     public function show(UserParty $userParty)
     {
-        return response()->json(['data' => $userParty]);
+        return new PartyResource($userParty);
     }
 
     /**
@@ -42,9 +43,29 @@ class PartyController extends Controller
             'user_id' => $request->user()->id,
             'name' => $validated['name'],
             'image_url' => $imagePath,
-            'invite_code' => mt_rand(10000000, 99999999),
+            'invite_code' => random_int(10000000, 99999999),
         ]);
 
         return new PartyResource(UserParty::find($userParty->id));
+    }
+
+    /**
+     * End user's party
+     * 
+     * Ends a user party
+     */
+    public function end(EndPartyRequest $request, UserParty $userParty)
+    {
+        $request->validated();
+
+        if (!is_null($userParty->finished_at)){ 
+            return abort(Response::HTTP_BAD_REQUEST, __('parties.already_finished'));
+        }
+
+        $userParty->finished_at = now();
+
+        $userParty->save();
+
+        return new PartyResource($userParty);
     }
 }

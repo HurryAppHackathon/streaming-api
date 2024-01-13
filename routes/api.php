@@ -44,5 +44,6 @@ Route::prefix('v1')->group(function () {
     Route::prefix('parties')->group(function () {
         Route::post('', [PartyController::class, 'store'])->middleware('auth:sanctum');
         Route::get('{user_party}', [PartyController::class, 'show'])->middleware('auth:sanctum');
+        Route::post('{user_party}/end', [PartyController::class, 'end'])->middleware('auth:sanctum');
     });
 });
