@@ -13,6 +13,37 @@ use Illuminate\Support\Facades\Storage;
 class PartyController extends Controller
 {
     /**
+     * Get list of videos
+     * 
+     * Gets list of videos
+     */
+    public function index(Request $request)
+    {
+        $typeQuery = $request->query('type');
+
+        $userParties = UserParty::query();
+
+        switch ($typeQuery) {
+            case 'public':
+                $userParties = $userParties->where('is_public', true);
+                break;
+            case 'private':
+                $userParties = $userParties->where('is_public', false)->where('user_id', $request->user()->id);
+                break;
+            case 'own':
+                $userParties = $userParties->where('user_id', $request->user()->id);
+                break;
+            default:
+                $userParties = $userParties->where('is_public', true)->orWhere('user_id', $request->user()->id);
+                break;
+        }
+
+        $userParties = $userParties->get();
+
+        return PartyResource::collection($userParties);
+    }
+
+    /**
      * Get a specific party
      * 
      * Gets a specific party by id
@@ -59,7 +90,7 @@ class PartyController extends Controller
     {
         $request->validated();
 
-        if (!is_null($userParty->finished_at)){ 
+        if (!is_null($userParty->finished_at)) {
             return abort(Response::HTTP_BAD_REQUEST, __('parties.already_finished'));
         }
 
