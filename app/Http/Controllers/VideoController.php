@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyUserVideoRequest;
+use App\Http\Requests\ShowVideoRequest;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateUserVideoRequest;
 use App\Models\UserVideo;
@@ -41,6 +42,17 @@ class VideoController extends Controller
         $userVideos = $userVideos->get();
 
         return response()->json(['data' => $userVideos]);
+    }
+
+    /**
+     * Get a specific video
+     * 
+     * Gets a specific video by id
+     */
+    public function show(ShowVideoRequest $request, UserVideo $userVideo) {
+        $request->validated();
+
+        return response()->json(['data' => $userVideo]);
     }
 
     /**
