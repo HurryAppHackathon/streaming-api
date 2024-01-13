@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 class PersonalAccessToken extends SanctumPersonalAccessToken
@@ -14,7 +15,7 @@ class PersonalAccessToken extends SanctumPersonalAccessToken
     {
         static::created(function (PersonalAccessToken $personalAccessToken) {
             if ($personalAccessToken->tokenable_type === User::class) {
-                Cache::put('tokens:' . $personalAccessToken->tokenable_id, $personalAccessToken->token, $personalAccessToken->expires_at);
+                Redis::set('tokens:' . $personalAccessToken->tokenable_id, $personalAccessToken->token, $personalAccessToken->expires_at);
             }
         });
     }
