@@ -20,6 +20,7 @@ class PartyController extends Controller
     public function index(Request $request)
     {
         $typeQuery = $request->query('type');
+        $statusQuery = $request->query('status');
 
         $userParties = UserParty::query();
 
@@ -35,6 +36,15 @@ class PartyController extends Controller
                 break;
             default:
                 $userParties = $userParties->where('is_public', true)->orWhere('user_id', $request->user()->id);
+                break;
+        }
+
+        switch ($statusQuery) {
+            case 'finished':
+                $userParties = $userParties->whereNotNull('finished_at');
+                break;
+            case 'ongoing':
+                $userParties = $userParties->whereNull('finished_at');
                 break;
         }
 
