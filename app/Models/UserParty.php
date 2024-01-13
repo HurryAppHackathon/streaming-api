@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Casts\PathToUrl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserParty extends Model
 {
+    protected $guarded = [];
+    protected $with = ['owner'];
+    protected $casts = [
+        'image_url' => PathToUrl::class,
+    ];
     protected $hidden = ['invite_code'];
 
     /**

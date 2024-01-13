@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('user_parties', function (Blueprint $table) {
             $table->id();
 
+            $table->string('name');
+            $table->string('image_url');
             $table->foreignId('user_id')->constrained('users'); // Owner of party
             $table->string('invite_code');
             $table->timestamp('finished_at')->nullable(); // If null, party is ongoing
