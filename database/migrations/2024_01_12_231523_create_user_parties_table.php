@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->boolean('is_public');
             $table->foreignId('user_id')->constrained('users'); // Owner of party
             $table->string('invite_code');

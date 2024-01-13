@@ -15,7 +15,7 @@ class PathToUrl implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return $value ? Storage::url($value) : 'https://i.pravatar.cc/500';
+        return $value ? Storage::url($value) : 'https://cdn-icons-png.flaticon.com/512/7626/7626666.png';
     }
 
     /**

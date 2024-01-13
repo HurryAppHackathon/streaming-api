@@ -23,7 +23,7 @@ class StorePartyRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'image' => 'required|file|mimetypes:image/png,image/jpeg,image/webp|extensions:jpg,jpeg,jpe,png,webp',
+            // 'image' => 'required|file|mimetypes:image/png,image/jpeg,image/webp|extensions:jpg,jpeg,jpe,png,webp',
             'is_public' => 'required|boolean',
         ];
     }

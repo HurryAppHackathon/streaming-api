@@ -74,16 +74,16 @@ class PartyController extends Controller
 
         $directoryPath = '/parties/images';
 
-        $imagePath = Storage::putFile($directoryPath, $request->file('image'));
+        // $imagePath = Storage::putFile($directoryPath, $request->file('image'));
 
-        if (!$imagePath) {
-            return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
-        }
+        // if (!$imagePath) {
+        //     return abort(Response::HTTP_INTERNAL_SERVER_ERROR, __('videos.upload_failed'));
+        // }
 
         $userParty = UserParty::create([
             'user_id' => $request->user()->id,
             'name' => $validated['name'],
-            'image_url' => $imagePath,
+            'image_url' => null,
             'invite_code' => random_int(10000000, 99999999),
             'is_public' => $validated['is_public'],
         ]);
