@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\PathToUrl;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Redis;
 class UserParty extends Model
 {
     protected $guarded = [];
-    protected $with = ['owner'];
+    protected $with = ['owner', 'users'];
     protected $casts = [
         'image_url' => PathToUrl::class,
         'is_public' => 'boolean',
@@ -24,6 +25,14 @@ class UserParty extends Model
     public function owner(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    /**
+     * The users that are in the party.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 
     /**

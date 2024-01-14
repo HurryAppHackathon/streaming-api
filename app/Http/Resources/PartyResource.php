@@ -22,6 +22,8 @@ class PartyResource extends JsonResource
             'is_public' => $this->is_public,
             'invite_code' => $this->when($request->user()->id === $this->user_id, $this->invite_code),
             'owner' => $this->whenLoaded('owner'),
+            'members' => $this->whenLoaded('users'),
+            'memberCounter' => $this->users()->count(),
             'finished_at' => $this->finished_at,
             'created_at' => $this->created_at,
         ];

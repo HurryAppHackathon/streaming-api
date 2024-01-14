@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EndPartyRequest;
 use App\Http\Requests\StorePartyRequest;
+use App\Http\Requests\StorePartyUserRequest;
 use App\Http\Resources\PartyResource;
+use App\Models\User;
 use App\Models\UserParty;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -109,5 +111,21 @@ class PartyController extends Controller
         $userParty->save();
 
         return new PartyResource($userParty);
+    }
+
+    /**
+     * Add user to a party
+     * 
+     * Adds a user to party 
+     */
+    public function addUser(StorePartyUserRequest $request, UserParty $userParty)
+    {
+        $validated = $request->validated();
+
+        $user = User::find($validated['user_id']);
+
+        $userParty->users()->syncWithoutDetaching([$user->id]);
+
+        return response()->json(['data' => (object) []]);
     }
 }
